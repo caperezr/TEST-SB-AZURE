@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nube-deployment
+  labels:
+    app: nube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nube
+  template:
+    metadata:
+      labels:
+        app: nube
+    spec:
+      containers:
+      - name: nube
+        image: containertrainingcperez.azurecr.io/testacr:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nube-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: nube
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
